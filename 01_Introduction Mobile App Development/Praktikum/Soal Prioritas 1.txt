@@ -1,0 +1,15 @@
+﻿Soal Prioritas 1
+1. Tuliskan 5 bahasa pemrograman untuk membuat aplikasi Mobile(contoh: C# untuk Desktop Windows)
+Jawaban:
+- Dart
+- Java
+- Kotlin
+- C++
+- Javascript
+2. Cari dan tuliskan 5 aplikasi yang berjalan pada sistem operasi Android namun tidak pada sistem operasi iOS
+Jawaban: 
+-  Driver Jogjakita
+- 1688 Online
+- AQI monitor & Weather Forecast
+- Pepelo
+- Polar 24Fps
