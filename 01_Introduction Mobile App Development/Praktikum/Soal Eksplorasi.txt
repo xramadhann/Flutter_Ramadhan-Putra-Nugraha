@@ -3,7 +3,6 @@
 Jawaban:
 Secara fitur Hybrid memiliki banyak batasan fitur fitur ataupun harus memiliki plugin tertentu untuk mengimplementasikan, sedangkan Native tidak memiliki batasan untuk menggunakan sebuah fitur fitur tersebut
 
-
 2. Sebutkan contoh kasus yang tepat untuk pengembangan aplikasi mobile secara hybrid.
 Jawaban: 
 Aplikasi artikel yang dimana menurut saya sangat tepat secara Hybrid yang hanya menyampaikan beberapa konten tanpa memiliki fitur yang kompleks namun dengan cara Hybrid sangat mudah untuk membuat tampilan menjadi responsif dan menarik
