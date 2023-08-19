@@ -1,3 +1,4 @@
+//Soal prioritas 1 nomer 1
 double panjang = 10.5;
 double lebar = 9.8;
 double sisi = 5.3;
@@ -12,6 +13,7 @@ double luaspersegipanjang = panjang * lebar;
 void main() {
   print("Luas persegi dengan sisi $sisi adalah $luaspersegi");
   print("Luas persegi dengan sisi $sisi adalah $kelilingpersegi");
-  print("Luas persegi dengan sisi $sisi adalah $luaspersegipanjang");
-  print("Luas persegi dengan sisi $sisi adalah $kelilingpersegipanjang");
+  print("Luas persegi panjang dengan sisi $sisi adalah $luaspersegipanjang");
+  print(
+      "Luas persegi panjang dengan sisi $sisi adalah $kelilingpersegipanjang");
 }
