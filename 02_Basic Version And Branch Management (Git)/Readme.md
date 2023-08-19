@@ -1,0 +1,1 @@
+Pembelajaran yang dilakukan yaitu, bagaimana cara branch , apa yang terjadi jika kita melakukan merge, apa itu push,pull, dan juga memahami dasar daripada github desktop dan juga fitur fitur lainnya seperti commit contohnya
