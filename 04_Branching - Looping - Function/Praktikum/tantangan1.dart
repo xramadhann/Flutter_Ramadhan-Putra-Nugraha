@@ -1,18 +1,30 @@
-// 1. buat sebuah function yang menghitung jumlah dari pembelian buku,  pensi, dan tas
-// 2. buatlah function yang menghitung diskon dari variabel total pembelian.
-// 3. buatlah function yang menghitung Total pembelian setelah diskon
-double buku = 10000;
-double pensil = 5000;
-double tas = 100000;
+double hitungTotalPembelian(double Buku, double Pensil, double Tas) {
+  double totalPembelian = Buku + Pensil + Tas;
+  return totalPembelian;
+}
 
-double total_pembelian = buku + pensil + tas;
-double diskon = 0.10;
-double setelah_diskon = diskon * total_pembelian;
+double hitungDiskon(double totalPembelian, double persentaseDiskon) {
+  double diskon = totalPembelian * (persentaseDiskon / 100);
+  return diskon;
+}
+
+double hitungTotalSetelahDiskon(double totalPembelian, double diskon) {
+  double totalSetelahDiskon = totalPembelian - diskon;
+  return totalSetelahDiskon;
+}
+
 void main() {
-  print("Buku : Rp$buku");
-  print("Pensil : Rp$pensil");
-  print("Tas : Rp$tas");
-  print("Total Harga : Rp$total_pembelian");
-  print("Total Diskon : $diskon %");
-  print("Total Harga Setelah Diskon: Rp$setelah_diskon");
+  double Buku = 10000;
+  double Pensil = 5000;
+  double Tas = 100000;
+
+  double totalPembelian = hitungTotalPembelian(Buku, Pensil, Tas);
+  print('Total pembelian sebelum diskon: $totalPembelian');
+
+  double persentaseDiskon = 10;
+  double diskon = hitungDiskon(totalPembelian, persentaseDiskon);
+  print('Diskon: $diskon');
+
+  double totalSetelahDiskon = hitungTotalSetelahDiskon(totalPembelian, diskon);
+  print('Total pembelian setelah diskon: $totalSetelahDiskon');
 }
