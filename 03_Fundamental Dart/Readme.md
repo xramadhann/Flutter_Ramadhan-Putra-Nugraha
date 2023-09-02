@@ -1,0 +1,1 @@
+Bermula mempelajari mengenai introduction mobile secara mandiri dan dihari berikutnya mempelajari mengenai fitur fitur apa saja yang ada di github dan di akhiri dengan mempelajari code aritmatik dan juga macam macam type data
