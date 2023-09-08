@@ -1,0 +1,1 @@
+Pada materi ini saya mempelajari tentang Dart Object Oriented Programming. Di materi ini ngejelasin tentang keuntungan OOP itunya sendiri, dan OOP itu sendiri di pakai beberapa bahasa pemrograman seperti c++, java, js, dan phyton. Dalam OOP memiliki beberapa komponen yaitu seperti class, object, property, method, inheritance, generics.
