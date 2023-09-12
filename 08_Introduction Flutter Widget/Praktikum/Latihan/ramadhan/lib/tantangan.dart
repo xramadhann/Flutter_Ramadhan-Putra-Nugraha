@@ -22,6 +22,20 @@ class TantanganHomePage extends StatefulWidget {
 
 class _TantanganHomePageState extends State<TantanganHomePage> {
   int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    // Ganti dengan halaman-halaman Anda sendiri di sini
+    Placeholder(
+      color: Colors.white,
+    ),
+    Placeholder(
+      color: Colors.blue,
+    ),
+    Placeholder(
+      color: Colors.green,
+    ),
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -65,12 +79,12 @@ class _TantanganHomePageState extends State<TantanganHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.abc),
+            label: 'user',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
+            icon: Icon(Icons.abc),
+            label: 'user',
           ),
         ],
         currentIndex: _selectedIndex,
