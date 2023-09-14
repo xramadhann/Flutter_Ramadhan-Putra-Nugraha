@@ -1,0 +1,1 @@
+Luas persegi dengan sisi $sisi adalah $luaspersegi
