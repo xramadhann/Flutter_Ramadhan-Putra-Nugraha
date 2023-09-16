@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(TantanganApp());
 
-class TantanganApp extends StatelessWidget {
+class TantanganApp extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
