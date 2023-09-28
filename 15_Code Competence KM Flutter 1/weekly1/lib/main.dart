@@ -1,435 +1,313 @@
 import 'package:flutter/material.dart';
-
-class Seat {
-  final String id;
-  bool isOccupied;
-
-  Seat(this.id, this.isOccupied);
-}
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ContactUsApp());
 }
 
-class MyApp extends StatelessWidget {
+class ContactUsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Transportation App',
+      title: 'Contact Us',
+      home: ContactUsScreen(),
       theme: ThemeData(
-        primaryColor: Colors.blue,
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.blue,
-          accentColor: Colors.orangeAccent,
-        ),
-        fontFamily: 'Roboto',
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Transportation App'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            WelcomeSection(),
-            Column(
-              children: [
-                Image.asset('assets/your_logo.png', height: 80.0),
-                SizedBox(height: 10.0),
-                Text(
-                  'Selamat Datang di Transportasi Perusahaan Kami',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Hubungi Kami:',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            ContactUsForm(),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BookingFormPage(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orangeAccent,
-                        ),
-                        child: Text(
-                          'Pesan Sekarang',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+        textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme),
+        primarySwatch: Colors.orange,
+        scaffoldBackgroundColor: Colors.white,
       ),
     );
   }
 }
 
-class WelcomeSection extends StatefulWidget {
+class ContactUsScreen extends StatefulWidget {
   @override
-  _WelcomeSectionState createState() => _WelcomeSectionState();
+  _ContactUsScreenState createState() => _ContactUsScreenState();
 }
 
-class _WelcomeSectionState extends State<WelcomeSection> {
-  bool showWelcome = true;
+class _ContactUsScreenState extends State<ContactUsScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  String _notification = "";
 
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(seconds: 2), () {
+  final ScrollController _scrollController = ScrollController();
+
+  void _submitForm() {
+    if (_formKey.currentState?.validate() ?? false) {
+      // Validasi sukses, tampilkan notifikasi
       setState(() {
-        showWelcome = false;
+        _notification =
+            'Name: ${_firstNameController.text}\nEmail: ${_emailController.text}\nMessage: ${_messageController.text}';
       });
-    });
-  }
+      _showConfirmationDialog();
 
-  @override
-  Widget build(BuildContext context) {
-    if (showWelcome) {
-      return Container(
-        color: Colors.blue,
-        padding: EdgeInsets.all(20.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/your_logo.png', height: 100.0),
-              SizedBox(height: 10.0),
-              Text(
-                'Nama Perusahaan Anda',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      // Mengosongkan teks dalam TextField
+      _firstNameController.clear();
+      _lastNameController.clear();
+      _emailController.clear();
+      _messageController.clear();
     } else {
-      return SizedBox.shrink();
+      // Tampilkan pesan kesalahan jika validasi gagal
+      setState(() {
+        _notification = "There are errors in the form";
+      });
     }
   }
-}
 
-class BookingFormPage extends StatefulWidget {
-  @override
-  _BookingFormPageState createState() => _BookingFormPageState();
-}
-
-class _BookingFormPageState extends State<BookingFormPage> {
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-
-  String? selectedRoute;
-  Seat? selectedSeat;
-
-  List<String> routes = ['Rute A', 'Rute B', 'Rute C'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Form Pemesanan'),
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(20.0),
-        children: [
-          Text(
-            'Isi Form Pemesanan:',
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            controller: firstNameController,
-            decoration: InputDecoration(
-              labelText: 'Nama Awal',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            controller: lastNameController,
-            decoration: InputDecoration(
-              labelText: 'Nama Akhir',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            controller: phoneController,
-            decoration: InputDecoration(
-              labelText: 'Nomor Telepon',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 20.0),
-          DropdownButtonFormField<String>(
-            value: selectedRoute,
-            onChanged: (value) {
-              setState(() {
-                selectedRoute = value;
-              });
-            },
-            items: routes.map((route) {
-              return DropdownMenuItem(
-                value: route,
-                child: Text(route),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              labelText: 'Rute',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Text(
-            'Silahkan Pilih Kursi Anda:',
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-          ),
-          SizedBox(height: 10.0),
-          SeatSelection(selectedSeat: selectedSeat),
-          SizedBox(height: 20.0),
-          ElevatedButton(
-            onPressed: () {
-              String firstName = firstNameController.text;
-              String lastName = lastNameController.text;
-              String email = emailController.text;
-              String phone = phoneController.text;
-              String route = selectedRoute ?? 'Belum Dipilih';
-              String selectedSeatId = selectedSeat?.id ?? 'Belum Dipilih';
-
-              print('Nama Awal: $firstName');
-              print('Nama Akhir: $lastName');
-              print('Email: $email');
-              print('No. Telepon: $phone');
-              print('Rute: $route');
-              print('Kursi: $selectedSeatId');
-            },
-            style: ElevatedButton.styleFrom(
-              primary: Colors.orangeAccent,
-            ),
-            child: Text(
-              'Kirim Pesan',
-              style: TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  String? _validateName(String? value) {
+    if (_firstNameController.text.isEmpty) {
+      return 'Name must be filled in';
+    }
+    return null;
   }
-}
 
-class SeatSelection extends StatefulWidget {
-  Seat? selectedSeat;
-
-  SeatSelection({required this.selectedSeat});
-
-  @override
-  _SeatSelectionState createState() => _SeatSelectionState();
-}
-
-class _SeatSelectionState extends State<SeatSelection> {
-  List<Seat> seats = [
-    Seat('A1', false),
-    Seat('A2', false),
-    Seat('B1', false),
-    Seat('B2', false),
-    Seat('C1', false),
-    Seat('C2', false),
-    Seat('D1', false),
-    Seat('D2', false),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        childAspectRatio: 1.2,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 10.0,
-      ),
-      itemCount: seats.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        Seat seat = seats[index];
-        return SeatButton(
-          seat: seat,
-          onPressed: () {
-            setState(() {
-              if (!seat.isOccupied) {
-                if (widget.selectedSeat != null) {
-                  widget.selectedSeat!.isOccupied = false;
-                }
-                seat.isOccupied = true;
-                widget.selectedSeat = seat;
-              } else {
-                // Jika kursi sudah terisi dan di-klik kembali, maka batalkan pemilihan.
-                seat.isOccupied = false;
-                widget.selectedSeat = null;
-              }
-            });
-          },
+  Future<void> _showConfirmationDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+          false, // Tidak bisa menutup dialog dengan mengklik di luar
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure you want to submit the form?'),
+                Text(_notification), // Menampilkan notifikasi di dalam dialog
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Confirm'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
   }
-}
-
-class SeatButton extends StatelessWidget {
-  final Seat seat;
-  final VoidCallback onPressed;
-
-  SeatButton({
-    required this.seat,
-    required this.onPressed,
-  });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        primary: seat.isOccupied ? Colors.grey : Colors.green,
-        padding: EdgeInsets.all(8.0),
-        minimumSize: Size(40, 40),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'XRamadhannForm',
+          style: GoogleFonts.righteous(
+            fontSize: 20.0,
+            color: Colors.black, // Mengatur warna teks
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
-      child: Text(
-        seat.id,
-        style: TextStyle(
-          fontSize: 12.0,
-        ),
-      ),
-    );
-  }
-}
-
-class ContactUsForm extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController messageController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextFormField(
-          controller: nameController,
-          decoration: InputDecoration(
-            labelText: 'Nama',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        SizedBox(height: 10.0),
-        TextFormField(
-          controller: emailController,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        SizedBox(height: 10.0),
-        TextFormField(
-          controller: messageController,
-          decoration: InputDecoration(
-            labelText: 'Pesan',
-            border: OutlineInputBorder(),
-          ),
-          maxLines: 4,
-        ),
-        SizedBox(height: 10.0),
-        ElevatedButton(
-          onPressed: () {
-            String name = nameController.text;
-            String email = emailController.text;
-            String message = messageController.text;
-
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text('Pesan Terkirim'),
-                  content: Text('Nama: $name\nEmail: $email\nPesan: $message'),
-                  actions: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 20.0),
+            Positioned(
+              child: Text(
+                'Welcome to',
+                style: GoogleFonts.fugazOne(
+                    fontSize: 54.0,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.orange),
+              ),
+            ),
+            SizedBox(height: 35.0),
+            Positioned(
+              child: Text(
+                'XRamadhannForm',
+                style: GoogleFonts.righteous(
+                  fontSize: 30.0,
+                  height: -1.1,
+                ),
+              ),
+            ),
+            Image.asset(
+              'Harimau.png',
+              height: 500,
+            ),
+            GestureDetector(
+              onTap: () {
+                final double offset = MediaQuery.of(context).size.height;
+                _scrollController.animateTo(offset,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut);
+              },
+              child: Text(
+                'Touch Me to Contact Us',
+                style: GoogleFonts.poppins(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 150.0),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: EdgeInsets.only(left: 20.0),
+                child: Text(
+                  'Contact us',
+                  style: GoogleFonts.poppins(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: EdgeInsets.only(left: 20.0),
+                child: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                  style: GoogleFonts.poppins(
+                    fontSize: 10.0,
+                  ),
+                ),
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            controller: _firstNameController,
+                            maxLines: 2,
+                            decoration: InputDecoration(
+                                labelText: 'First Name',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 217, 217, 217),
+                                iconColor: Colors.white),
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            validator: _validateName,
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _lastNameController,
+                            maxLines: 2,
+                            decoration: InputDecoration(
+                              labelText: 'Last Name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              filled: true,
+                              fillColor: Color.fromARGB(255, 217, 217, 217),
+                            ),
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            validator: (value) {
+                              if (_firstNameController.text.isEmpty) {
+                                return ' ';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: _emailController,
+                      maxLines: 2,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 217, 217, 217),
+                      ),
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Email must be filled in';
+                        } else if (!(value?.contains('@') ?? false)) {
+                          return 'Email is not valid';
+                        }
+                        return null;
                       },
-                      child: Text('OK'),
+                    ),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: _messageController,
+                      maxLines: 6,
+                      decoration: InputDecoration(
+                        labelText: 'Message',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          borderSide: BorderSide(color: Colors.orange),
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 217, 217, 217),
+                      ),
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Message must be filled in';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 20.0),
+                    ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text('Submit'),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.orange,
+                          foregroundColor: Colors.white),
+                    ),
+                    SizedBox(height: 10.0),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                    ),
+                    SizedBox(height: 70.0),
+                    Text(
+                      _notification,
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 255, 17, 0),
+                        fontSize: 16.0,
+                      ),
                     ),
                   ],
-                );
-              },
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Colors.orangeAccent,
-          ),
-          child: Text(
-            'Kirim Pesan',
-            style: TextStyle(
-              fontSize: 16.0,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
