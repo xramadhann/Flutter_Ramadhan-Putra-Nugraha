@@ -15,8 +15,8 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/': (context) => HomePage(),
         '/contacts': (context) => const ContactsPage(),
         '/gallery': (context) => const GalleryPage(),
         '/images': (context) => const ImageView(imageAsset: ''),
