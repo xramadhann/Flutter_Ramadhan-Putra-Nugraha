@@ -19,21 +19,13 @@ class _MyFormState extends State<MyForm> {
   final currentDate = DateTime.now();
   Color _currentColor = Colors.orange;
   PlatformFile? _pickedFile;
-  var _fileName = '';
+  String _fileName = '';
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Icon(Icons.login_sharp),
-              ),
-            ],
-          ),
           Container(
             margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
             child: Row(
@@ -166,7 +158,7 @@ class _MyFormState extends State<MyForm> {
                   child: const Text('Pilih File'),
                 ),
               ),
-              if (_pickedFile != null) Text('Profile: ${_pickedFile!.name}'),
+              if (_pickedFile != null) Text('Profile: $_fileName'),
             ],
           ),
           Container(
@@ -192,6 +184,7 @@ class _MyFormState extends State<MyForm> {
                   // Reset picked file
                   setState(() {
                     _pickedFile = null;
+                    _fileName = '';
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -202,15 +195,6 @@ class _MyFormState extends State<MyForm> {
                 child: Text('Submit'),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => gridviewpoto()),
-              );
-            },
-            child: Text('Halaman Galery'),
           ),
           Divider(),
           Column(
