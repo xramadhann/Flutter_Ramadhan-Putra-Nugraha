@@ -1,69 +1,30 @@
 import 'package:flutter/material.dart';
-import 'ui/screen/input_form.dart';
-import 'ui/screen/gridviewpoto.dart';
-
-
+import 'package:provider/provider.dart';
+import 'pages/contacts_page.dart';
+import 'pages/home_page.dart';
+import 'providers/contact_provider.dart';
 
 void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
-      '/': (context) => const MyApp(),
-      '/galeri': (context) => gridviewpoto(),
-    },
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ContactProvider(),
+      child: const App(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Aplikasi Daftar Penumpang Bus Trans Jaya',
-            style: TextStyle(fontSize: 15.5),
-          ),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: MyForm(),
-        ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue
-                ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text('Contact'),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/');
-                },
-              ),
-              ListTile(
-                title: Text('Galeri'),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/galeri');
-                },
-              )
-            ],
-          ),
-        ),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/contacts': (context) => const ContactsPage(),
+      },
     );
   }
 }
