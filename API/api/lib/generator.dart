@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:math';
 
 void main() {
   runApp(MaterialApp(
@@ -15,23 +16,33 @@ class ImageGenerator extends StatefulWidget {
 
 class _ImageGeneratorState extends State<ImageGenerator> {
   TextEditingController nameController = TextEditingController();
-  String imageSvg = ''; // Inisialisasi imageSvg dengan nilai awal kosong
+  String imageSvg = '';
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> getImage(String name) async {
+  Future<void> generateImage(String name) async {
     String apiUrl;
 
-    if (name == 'Jack') {
-      apiUrl = 'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Jack';
-    } else if (name == 'Smokey') {
+    if (name == 'smokey') {
       apiUrl =
           'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Smokey';
-    } else {
+    } else if (name == 'milo') {
       apiUrl = 'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Milo';
+    } else {
+      final List<String> apiUrls = [
+        'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Jack',
+        'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Pumpkin',
+        'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Max',
+        'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Abby',
+        'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Princess',
+        'https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=Jasmine'
+      ];
+
+      final random = Random();
+      apiUrl = apiUrls[random.nextInt(apiUrls.length)];
     }
 
     try {
@@ -54,7 +65,7 @@ class _ImageGeneratorState extends State<ImageGenerator> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Image Generator'),
-        backgroundColor: Colors.blue, // Ganti warna latar belakang app bar
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -74,18 +85,20 @@ class _ImageGeneratorState extends State<ImageGenerator> {
                       SizedBox(height: 20),
                       SvgPicture.string(
                         imageSvg,
-                        width: 200, // Atur lebar gambar
-                        height: 200, // Atur tinggi gambar
+                        width: 200,
+                        height: 200,
                       ),
                     ],
                   )
                 : Container(),
-            SizedBox(height: 16),
+            SizedBox(
+              height: 20,
+            ),
             TextField(
               controller: nameController,
               decoration: InputDecoration(
                 labelText: 'Enter Name',
-                border: OutlineInputBorder(), // Tambahkan border ke input field
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
@@ -93,13 +106,13 @@ class _ImageGeneratorState extends State<ImageGenerator> {
               onPressed: () {
                 String name = nameController.text.trim();
                 if (name.isNotEmpty) {
-                  getImage(name);
+                  generateImage(name);
                 }
               },
               child: Text('Generate Image'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.blue, // Ganti warna tombol
-                onPrimary: Colors.white, // Ganti warna teks tombol
+                primary: Colors.blue,
+                onPrimary: Colors.white,
               ),
             ),
           ],
