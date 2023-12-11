@@ -1,0 +1,3 @@
+input : umur saya 17 tahun, berapa umur mu?
+
+output : J'ai 17 ans, quel âge as-tu ?
